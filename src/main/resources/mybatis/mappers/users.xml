@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="users">
+	
+	<resultMap id="resultMapUsers" type="com.javaex.vo.UsersVo">
+		<result column="userNo" property="userNo" />
+		<result column="id" property="id" />
+		<result column="userName" property="userName" />
+		<result column="password" property="password" />
+		<result column="joinDate" property="joinDate" />
+	</resultMap>
+	
+
+	<!-- 리스트 -->
+	<select id="selectList" resultMap="resultMapUsers">
+	<![CDATA[
+		select  userNo
+		        ,id
+		        ,userName
+		        ,password
+		        ,to_char(joinDate, 'YYYY-MM-DD') "joinDate"
+		from    users
+	]]>
+	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="insert" parameterType="com.javaex.vo.UsersVo">
+		<![CDATA[
+			INSERT INTO users 
+			VALUES (seq_users_no.nextval, #{id}, #{userName}, #{password}, sysdate)
+		]]>
+	</insert>
+
+	<!-- 아이디 체크 -->
+	<select id="idCheck" resultType="String" parameterType="String">
+		<![CDATA[
+			select  id
+			from    users
+			where	id = #{id}
+		]]>
+	</select>
+	
+	<!-- session -->
+	<select id="session" resultMap="resultMapUsers" parameterType="com.javaex.vo.UsersVo">
+	<![CDATA[
+		select  userNo
+		        ,id
+		        ,userName
+		        ,password
+		        ,to_char(joinDate, 'YYYY-MM-DD') "joinDate"
+		from    users
+		where	id = #{id}
+		and		password = #{password}
+	]]>
+	</select>
+</mapper>
