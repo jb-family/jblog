@@ -2,14 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 		<div id="header" class="clearfix">
-			<c:choose>
-				<c:when test ="${user != null}">
-					<h1><a href="">${bVo.userName}의 블로그입니다.</a></h1>
-				</c:when>
-				<c:otherwise>
-					<h1><a href="">${user.userName}의 블로그입니다.</a></h1>
-				</c:otherwise>
-			</c:choose>
+			<c:if test ="${user != null}">
+				<h1><a href="">${bVo.id}의 블로그입니다.</a></h1>
+			</c:if>
 			<ul class="clearfix">
 			
 			<c:choose>

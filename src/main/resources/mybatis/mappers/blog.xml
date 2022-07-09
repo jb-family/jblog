@@ -5,13 +5,12 @@
 	<!-- Vo 가져오기 -->
 	<select id = "select" resultType="com.javaex.vo.BlogVo" parameterType="String">
 		<![CDATA[
-			select  userNo
-			        ,userName
-			        ,password
-			        ,to_char(joinDate, 'YYYY-MM-DD') "joinDate"
-			        ,id
-			from    users
-			where	id = #{id}
+			select  b.id
+			        ,b.blogTitle
+			        ,b.logoFile
+			from    users u, blog b
+            where   u.id = b.id
+			and	b.id = #{id}
 		]]>
 	</select>
 		
@@ -23,12 +22,21 @@
 		]]>
 	</insert>
 	
-	<update id = "update" parameterType="com.javaex.vo.BlogVo">
+	
+	<update id="update" parameterType="com.javaex.vo.BlogVo">
 		<![CDATA[
-			UPDATE	blog
-			SET 	logoFile = #{filePath} 
-			WHERE 	id = #{id}
+			update	blog
+			set		blogTitle = #{blogTitle}
+					,logoFile = #{logoFile}
+			where id = #{id}
 		]]>
 	</update>
+	
+	<delete id = "delete" parameterType="com.javaex.vo.BlogVo">
+		<![CDATA[
+			DELETE FROM blog
+			WHERE id = #{id} 
+		]]>
+	</delete>
 			        
 </mapper>

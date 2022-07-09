@@ -27,7 +27,7 @@
 					<!-- 사용자업로드 이미지 -->
 					<img id="proImg" src="${pageContext.request.contextPath}/uploadFile/${saveName}">
 					
-					<div id="nick">${user.userName}님</div>
+					<div id="nick">${bVo.id}님</div>
 				</div>
 				<div id="cate">
 					<div class="text-left">
@@ -50,8 +50,8 @@
 				
 				<div id="postBox" class="clearfix">
 						<div id="postTitle" class="text-left"><strong>08.페이징</strong></div>
-						<div id="postDate" class="text-left"><strong>${user.joinDate}</strong></div>
-						<div id="postNick">${user.userName}님</div>
+						<div id="postDate" class="text-left"><strong>음ㅇ믕믕ㅁ음음ㅇ</strong></div>
+						<div id="postNick">${bVo.id}님</div>
 				</div>
 				<!-- //postBox -->
 			

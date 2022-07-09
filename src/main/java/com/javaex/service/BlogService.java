@@ -29,14 +29,14 @@ public class BlogService {
 	public BlogVo select(String id) {
 		System.out.println("BlogService > blog()");
 		
-		BlogVo bVo = blogDao.select(id);
-		return bVo;
+		BlogVo Vo = blogDao.select(id);
+		return Vo;
 	}
 	
 	//블로그 글 파일 작성
-	public String upLoad(BlogVo blogVo, MultipartFile file) {
+	public BlogVo upLoad(BlogVo blogVo, MultipartFile file) {
 		System.out.println("BlogController > upLoad()");
-		
+		System.out.println("파일"+ file);
 		//파일명
 		String orgName = file.getOriginalFilename();
 		//확장자
@@ -48,23 +48,20 @@ public class BlogService {
 		//파일경로 (디렉토리+불러올파일명)
 		String filePath = saveDir + "\\" + saveName;
 		
-		blogVo.setLogoFile(filePath);
-		
-		blogDao.insert(blogVo);
-		
-		//blogDao.fileUpdate(blogVo);
-		
-		try {
-			byte[] fileData = file.getBytes();
-			OutputStream os = new FileOutputStream(filePath);
-			BufferedOutputStream bos = new BufferedOutputStream(os);
+			blogVo.setLogoFile(saveName);
 			
-			bos.write(fileData);
-			bos.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return saveName;
+			blogDao.update(blogVo);
+			try {
+				byte[] fileData = file.getBytes();
+				OutputStream os = new FileOutputStream(filePath);
+				BufferedOutputStream bos = new BufferedOutputStream(os);
+				
+				bos.write(fileData);
+				bos.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return blogVo;
 	}
 	
 }

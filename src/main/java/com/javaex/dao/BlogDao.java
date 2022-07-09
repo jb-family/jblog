@@ -18,26 +18,32 @@ public class BlogDao {
 	public BlogVo select(String id) {
 		System.out.println("BlogDao > blog()");
 
-		BlogVo bVo = sqlSession.selectOne("blog.select", id);
-		return bVo;
+		BlogVo Vo = sqlSession.selectOne("blog.select", id);
+		return Vo;
 	}
 	
 	
 	//블로그 타이틀, 파일경로추가
 	public int insert(BlogVo blogVo) {
 		System.out.println("BlogDao > insert()");
-		System.out.println("정보"+blogVo);
+		
 		return sqlSession.insert("blog.insert", blogVo);
 	}
 	
-	/*
-	//블로그 파일변경
-	public int fileUpdate(BlogVo blogVo) {
-		System.out.println("BlogDao > fileUpdate()");
+	//블로그 파일업데이트
+	public int update(BlogVo blogVo) {
+		System.out.println("BlogDao > update()");
 		
 		return sqlSession.update("blog.update", blogVo);
-		
 	}
-	*/
+	
+	
+	//블로그 파일삭제
+	public int delete(BlogVo blogVo) {
+		System.out.println("BlogDao > fileUpdate()");
+		System.out.println("vvvvvvvvvvvvvvvvv"+blogVo);
+		return sqlSession.delete("blog.delete", blogVo);
+	}
+	
 	
 }

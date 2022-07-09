@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>JBlog</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.12.4.js"></script>
 
 </head>
 <body>
@@ -33,14 +34,15 @@
 		      		</tr> 
 		      		<tr>
 		      			<td colspan="2" id="tdMsg" colspan="2">
-		      				<span>아이디 또는 비번을 확인해 주세요.</span>
+			      			<c:if test="${param.result == 'fail'}">
+		      					<span id="message">아이디 또는 비번을 확인해 주세요.</span>
+		      				</c:if>
 		      			</td>
 		      		</tr> 
 		      	</table>
 	      		<div id="btnArea">
-					<button class="btn" type="submit" >로그인</button>
+					<button class="btn" type="submit">로그인</button>
 				</div>
-	      		
 			</form>
 		
 		</div>
@@ -51,5 +53,7 @@
 	</div>
 	
 </body>
+
+
 
 </html>

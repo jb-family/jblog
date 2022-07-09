@@ -3,15 +3,11 @@ package com.javaex.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.javaex.dao.PostDao;
-import com.javaex.vo.PostVo;
+import com.javaex.dao.CommentsDao;
 
 @Service
-public class PostService {
+public class CommentsService {
 	
 	@Autowired
-	PostDao postDao;
-	
-	
-		
+	CommentsDao commentsDao;
 }

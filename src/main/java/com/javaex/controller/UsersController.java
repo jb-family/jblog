@@ -55,13 +55,12 @@ public class UsersController {
 		System.out.println("UsersController > login()");
 		
 		UsersVo user = usersService.login(usersVo);
-		System.out.println(user);
-		
+		System.out.println("user정보:"+user);
 		if(user != null) {
 			session.setAttribute("user", user);
 			return "redirect:/main/index";
 		}else {
-			return "redirect:/user/loginForm";
+			return "redirect:/user/loginForm?result=fail";
 		}
 	}
 	

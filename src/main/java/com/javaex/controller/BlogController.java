@@ -28,8 +28,6 @@ public class BlogController {
 		System.out.println("BlogController > blog()");
 		
 		BlogVo bVo = blogService.select(id);
-		System.out.println("정보가져오기 "+bVo);
-		
 		model.addAttribute("bVo", bVo);
 		
 		return "/blog/blog-main";
@@ -50,7 +48,8 @@ public class BlogController {
 	public String blogBasic(@PathVariable("id") String id, Model model) {
 		System.out.println("BlogController > blogBasic()");
 		
-		model.addAttribute("id", id);
+		BlogVo bVo = blogService.select(id);
+		model.addAttribute("bVo", bVo);
 		return "/blog/admin/blog-admin-basic";
 	}
 	
@@ -59,10 +58,11 @@ public class BlogController {
 	public String blogUpload(@PathVariable("id") String id, @ModelAttribute BlogVo blogVo, @RequestParam("file") MultipartFile file, Model model) {
 		System.out.println("BlogController > upLoad()");
 		
-		String saveName = blogService.upLoad(blogVo, file);
-		model.addAttribute("saveName", saveName);
-		System.out.println(saveName);
-		return "/blog/admin/blog-admin-basic";
+		BlogVo bVo = blogService.upLoad(blogVo, file);
+		
+		model.addAttribute("bVo", bVo);
+		System.out.println("정보정보"+bVo);
+		return "redirect:/blog/{id}/admin/basic";
 	}
 	
 }

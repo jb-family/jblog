@@ -20,7 +20,7 @@
 		<div id="content">
 			<ul id="admin-menu" class="clearfix">
 				<li class="tabbtn selected"><a href="${pageContext.request.contextPath}/blog/${user.id}/admin/basic">기본설정</a></li>
-				<li class="tabbtn"><a href="${pageContext.request.contextPath}/blog/${user.id}/admin/cate">카테고리</a></li>
+				<li class="tabbtn"><a href="${pageContext.request.contextPath}/blog/${user.id}/admin/category">카테고리</a></li>
 				<li class="tabbtn"><a href="${pageContext.request.contextPath}/blog/${user.id}/admin/writeForm">글작성</a></li>
 			</ul>
 			<!-- //admin-menu -->
@@ -39,7 +39,7 @@
 			      		</tr>
 			      		<tr>
 			      			<td><label>로고이미지</label></td>
-			      			<td class="text-left"><img src="${pageContext.request.contextPath}/uploadFile/${saveName}"></td>   
+			      			<td class="text-left"><img src="${pageContext.request.contextPath}/uploadFile/${bVo.logoFile}"></td>   
 			      		</tr>      		
 			      		<tr>
 			      			<td>&nbsp;</td>
@@ -63,5 +63,8 @@
 	
 	</div>
 	<!-- //wrap -->
+	
+	
+	
 </body>
 </html>
