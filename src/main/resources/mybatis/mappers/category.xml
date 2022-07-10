@@ -4,14 +4,18 @@
 
 	
 	<!-- 카테고리 리스트 가져오기 -->
-	<select id="selectList" resultType="com.javaex.vo.CategoryVo">
+	<select id="selectList" resultType="com.javaex.vo.CategoryVo" parameterType="String">
 		<![CDATA[
-			select	cateNo
-					,id
-					,cateName
-					,description
-					,regDate
-			from	category
+			select	c.cateNo
+					,c.id
+					,c.cateName
+					,c.description
+					,c.regDate
+			from	category c, blog b, users u
+			where	u.id = b.id
+			and		b.id = c.id
+			and		c.id = #{id}
+			order by c.cateNo asc	
 		]]>
 	</select>
 	
@@ -40,8 +44,13 @@
 		]]>
 	</select>
 
-
-
+	<!-- 카테고리 삭제 -->
+	<delete id="delete" parameterType="int">
+		<![CDATA[
+			delete	from	category
+			where	cateNo = #{cateNo}
+		]]>
+	</delete>
 
 
 

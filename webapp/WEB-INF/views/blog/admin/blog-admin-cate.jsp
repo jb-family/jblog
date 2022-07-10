@@ -96,13 +96,12 @@
 			//data : categoryVo,
 
 			dataType : "json",
-			success : function(cList){
+			success : function(cMap){
 				/*성공시 처리해야될 코드 작성*/
-				console.log(cList);
+				console.log(cMap);
 				
-				for(var i = 0; i < cList.length; i++) {
-					
-					render(cList[i], "down");	
+				for(var i = 0; i < cMap.cList.length; i++) {
+					render(cMap.cList[i], "down", cMap.pList[i]);	
 				}	
 					
 			},
@@ -116,31 +115,63 @@
 	$("#cateList").on("click", ".btnCateDel" ,function() {
 		console.log("버튼체크");
 		var $this = $(this);
-		console.log($this);
 		
-		var no = $this.date("no");
+		var cateNo = $this.data("cateno");
+		var postNo = $this.data("postno");
 		
+		if(postNo > 0) {
+			alert("삭제할 수 없습니다.");
+		} else {
+			var categoryVo = {
+					cateNo : cateNo
+			}
+			
+			$.ajax({
+				
+				url : "${pageContext.request.contextPath}/category/remove",		
+				type : "post",
+				//contentType : "application/json",
+				data : categoryVo,
+	
+				dataType : "json",
+				success : function(result){
+					/*성공시 처리해야될 코드 작성*/
+					console.log(result);
+					
+					if(result === "succeess") {
+						$("#t"+categoryVo.cateNo).remove();
+					}
+				},
+				error : function(XHR, status, error) {
+					console.error(status + " : " + error);
+				}
+			});
+		}
 	})
 	
 	//리스트 그리기
-	function render(categoryVo, opt) {
+	function render(cList, opt, pList) {
 		
 		var str = '';
-		str += '<tr id="t' + categoryVo.id + '">';
-		str += '	<td>' + categoryVo.cateNo + '</td>';
-		str += '	<td>' + categoryVo.cateName + '</td>';
-		str += '	<td> 아직 안했다 </td>';
-		str += '	<td>' + categoryVo.description + '</td>';
+		str += '<tr id="t' + cList.cateNo + '">';
+		str += '	<td>' + cList.cateNo + '</td>';
+		str += '	<td>' + cList.cateName + '</td>';
+		str += '	<td>' + pList.postNo + '</td>';
+		str += '	<td>' + cList.description + '</td>';
 		str += '	<td class="text-center">';
-		str += '	<img class="btnCateDel" date-no="' + categoryVo.id + '" src="${pageContext.request.contextPath}/assets/images/delete.jpg">';
+		str += '	<img class="btnCateDel" data-cateno="' + cList.cateNo + '" data-postno="'+ pList.postNo +'"  src="${pageContext.request.contextPath}/assets/images/delete.jpg">';
 		str += '	</td>';
 		str += '</tr>';
 	
 		
 		if(opt === "down") {
 			$("#cateList").append(str);
+			$("#cateName").val("");
+			$("#description").val("");
 		}else if(opt === "up") {
 			$("#cateList").prepend(str);
+			$("#cateName").val("");
+			$("#description").val("");
 		}
 		
 	}
@@ -158,19 +189,20 @@
 				description
 		}
 		
-$.ajax({
+		
+		
+		$.ajax({
 			
 			url : "${pageContext.request.contextPath}/category/insert",		
 			type : "post",
 			//contentType : "application/json",
 			data : categoryVo,
-
+			
 			dataType : "json",
 			success : function(cVo){
 				/*성공시 처리해야될 코드 작성*/
-				console.log(cVo);
-				
-				render(cVo, "up");
+				var pList = {postNo: 0};
+				render(cVo, "up", pList);
 			},
 			error : function(XHR, status, error) {
 				console.error(status + " : " + error);

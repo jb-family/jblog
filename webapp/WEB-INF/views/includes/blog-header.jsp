@@ -3,7 +3,7 @@
 
 		<div id="header" class="clearfix">
 			<c:if test ="${user != null}">
-				<h1><a href="">${bVo.id}의 블로그입니다.</a></h1>
+				<h1><a href="">${uVo.userName}의 블로그입니다.</a></h1>
 			</c:if>
 			<ul class="clearfix">
 			
@@ -15,7 +15,7 @@
 				<c:otherwise>
 					<!-- 로그인 후 메뉴 -->
 					<!-- 자신의 블로그일때만 관리 메뉴가 보인다. -->
-					<c:if test ="${user.id == bVo.id}">
+					<c:if test ="${user.id == uVo.id}">
 						<li><a class="btn_s" href="${pageContext.request.contextPath}/blog/${user.id}/admin/basic">내블로그 관리</a></li>
 					</c:if>
 					<li><a class="btn_s" href="${pageContext.request.contextPath}/blog/logout">로그아웃</a></li>

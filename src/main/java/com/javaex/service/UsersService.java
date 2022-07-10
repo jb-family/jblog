@@ -25,14 +25,6 @@ public class UsersService {
 	 @Autowired CommentsDao commentsDao;
 	 
 	 
-	 //세션
-	 public List<UsersVo> selectList() {
-		 System.out.println("UsersService > selectList()");
-		 List<UsersVo> uList = usersDao.selectList();
-		 return uList;
-	 }
-	 
-	 
 	 //회원가입
 	 public int insert(UsersVo usersVo) {
 		 System.out.println("UsersService > insert()");

@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.javaex.service.BlogService;
 import com.javaex.vo.BlogVo;
+import com.javaex.vo.UsersVo;
 
 @Controller
 public class BlogController {
@@ -27,8 +27,9 @@ public class BlogController {
 	public String blog(@PathVariable("id") String id, Model model) {
 		System.out.println("BlogController > blog()");
 		
-		BlogVo bVo = blogService.select(id);
-		model.addAttribute("bVo", bVo);
+		UsersVo uVo = blogService.select(id);
+		System.out.println("uVo정보"+uVo);
+		model.addAttribute("uVo", uVo);
 		
 		return "/blog/blog-main";
 	}
@@ -48,17 +49,21 @@ public class BlogController {
 	public String blogBasic(@PathVariable("id") String id, Model model) {
 		System.out.println("BlogController > blogBasic()");
 		
-		BlogVo bVo = blogService.select(id);
+		UsersVo uVo = blogService.select(id);
+		model.addAttribute("uVo", uVo);
+		
+		BlogVo bVo = blogService.selectBlog(id);
 		model.addAttribute("bVo", bVo);
+		
 		return "/blog/admin/blog-admin-basic";
 	}
 	
 	//블로그 글 파일 작성
 	@RequestMapping(value="/blog/{id}/admin/upLoad", method = {RequestMethod.POST, RequestMethod.GET})
-	public String blogUpload(@PathVariable("id") String id, @ModelAttribute BlogVo blogVo, @RequestParam("file") MultipartFile file, Model model) {
+	public String blogUpload(@ModelAttribute BlogVo blogVo, @RequestParam("file") MultipartFile file, Model model, HttpSession session) {
 		System.out.println("BlogController > upLoad()");
 		
-		BlogVo bVo = blogService.upLoad(blogVo, file);
+		BlogVo bVo = blogService.upLoad(blogVo, file, session);
 		
 		model.addAttribute("bVo", bVo);
 		System.out.println("정보정보"+bVo);

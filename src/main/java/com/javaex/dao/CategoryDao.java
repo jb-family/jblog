@@ -16,10 +16,10 @@ public class CategoryDao {
 	
 	
 	//블로그 카테고리 리스트
-	public List<CategoryVo> selectList() {
+	public List<CategoryVo> selectList(String id) {
 		System.out.println("CategoryDao > selectList()");
 		
-		List<CategoryVo> cList = sqlSession.selectList("category.selectList");
+		List<CategoryVo> cList = sqlSession.selectList("category.selectList", id);
 		return cList;
 	}
 	
@@ -28,6 +28,7 @@ public class CategoryDao {
 		System.out.println("CategoryDao > insert()");
 		System.out.println(categoryVo);
 		return sqlSession.insert("category.insert", categoryVo);
+		
 	}
 	
 	//블로그 카테고리 정보 가져오기
@@ -38,7 +39,15 @@ public class CategoryDao {
 		return cVo;
 	}
 	
-	
+
+	//블로그 카테고리 삭제
+	public int delete(int cateNo) {
+		System.out.println("CategoryController > delete()");
+		
+		System.out.println("카테고리 정보"+cateNo);
+		return sqlSession.delete("category.delete", cateNo);
+		
+	}
 	
 	
 }

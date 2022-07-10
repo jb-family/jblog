@@ -16,13 +16,6 @@ public class UsersDao {
 	
 	 @Autowired SqlSession sqlSession;
 	 
-	 //세션
-	 public List<UsersVo> selectList() {
-		 System.out.println("UsersDao > selectList()");
-		 List<UsersVo> uList = sqlSession.selectList("users.selectList");
-		 return uList;
-	 }
-	 
 	 //회원가입
 	 public int insert(UsersVo usersVo) {
 		 System.out.println("UsersDao > insert()");
@@ -44,6 +37,12 @@ public class UsersDao {
 		UsersVo user = sqlSession.selectOne("users.session", usersVo);
 		return user;
 	}
-		
 	
+	//유저 정보가져오기
+	public UsersVo userInfo(String id) {
+		System.out.println("UsersDao > userInfo()");
+		
+		UsersVo user = sqlSession.selectOne("users.userInfo", id);
+		return user;
+	}
 }

@@ -1,6 +1,8 @@
 package com.javaex.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,11 +13,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javaex.service.CategoryService;
-import com.javaex.vo.BlogVo;
 import com.javaex.vo.CategoryVo;
+import com.javaex.vo.UsersVo;
 
 @Controller
 public class CategoryController {
@@ -28,8 +31,8 @@ public class CategoryController {
 	public String blogCate(@PathVariable("id") String id, Model model) {
 		System.out.println("CategoryController > blogCate()");
 		
-		BlogVo bVo = categoryService.select(id);
-		model.addAttribute("bVo", bVo);
+		UsersVo uVo = categoryService.select(id);
+		model.addAttribute("uVo", uVo);
 		
 		return "/blog/admin/blog-admin-cate";
 	}
@@ -37,25 +40,43 @@ public class CategoryController {
 	//블로그 카테고리 리스트
 	@ResponseBody
 	@RequestMapping(value="/category/list")
-	public List<CategoryVo> list() {
+	public Map<String, Object> list(HttpSession session) {
 		System.out.println("CategoryController > list()");
 		
-		List<CategoryVo> cList = categoryService.selectList();
-		System.out.println("리스트"+cList);
-		return cList;
+		UsersVo user = (UsersVo)session.getAttribute("user");
+		String id = user.getId();
+		
+		Map<String, Object> cMap = categoryService.selectList(id);
+		
+		return cMap;
 		
 	}
 	
 	//블로그 카테고리 추가
 	@ResponseBody
-	@RequestMapping(value="/category/insert")
+	@RequestMapping(value="/category/insert", method = {RequestMethod.POST, RequestMethod.GET})
 	public CategoryVo insert(@ModelAttribute CategoryVo categoryVo, HttpSession session) {
 		System.out.println("CategoryController > insert()");
 		System.out.println(categoryVo);
 		
 		CategoryVo cVo = categoryService.insert(categoryVo, session);
+		
 		return cVo;
 	}
+	
+	//블로그 카테고리 삭제
+	@ResponseBody
+	@RequestMapping(value="/category/remove", method = {RequestMethod.POST, RequestMethod.GET})
+	public String delete(@RequestParam("cateNo") int cateNo) {
+		System.out.println("CategoryController > delete()");
+		
+		System.out.println("카테고리 정보"+cateNo);
+		String result = categoryService.delete(cateNo);
+		
+		return result;
+	}
+	
+	
 	
 	
 }

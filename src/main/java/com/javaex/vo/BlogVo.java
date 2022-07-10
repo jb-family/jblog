@@ -1,7 +1,6 @@
 package com.javaex.vo;
 
 public class BlogVo {
-	
 	private String id;
 	private String blogTitle;
 	private String logoFile;

@@ -27,7 +27,7 @@
 			
 			<div id="admin-content">
 				<form action="${pageContext.request.contextPath}/blog/${user.id}/admin/upLoad" method="post" enctype="multipart/form-data">
-					<input type="hidden" name="id" value="${id}">
+<%-- 					<input type="hidden" name="id" value="${id}"> --%>
 	 		      	<table id="admin-basic">
 	 		      		<colgroup>
 							<col style="width: 100px;">

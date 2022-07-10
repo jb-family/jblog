@@ -11,17 +11,6 @@
 	</resultMap>
 	
 
-	<!-- 리스트 -->
-	<select id="selectList" resultMap="resultMapUsers">
-	<![CDATA[
-		select  userNo
-		        ,id
-		        ,userName
-		        ,password
-		        ,to_char(joinDate, 'YYYY-MM-DD') "joinDate"
-		from    users
-	]]>
-	</select>
 	
 	<!-- 회원가입 -->
 	<insert id="insert" parameterType="com.javaex.vo.UsersVo">
@@ -53,4 +42,21 @@
 		and		password = #{password}
 	]]>
 	</select>
+	
+	<!-- session -->
+	<select id="userInfo" resultMap="resultMapUsers" parameterType="String">
+	<![CDATA[
+		select  userNo
+		        ,id
+		        ,userName
+		        ,password
+		        ,to_char(joinDate, 'YYYY-MM-DD') "joinDate"
+		from    users
+		where	id = #{id}
+	]]>
+	</select>
+	
+	
+	
+	
 </mapper>
