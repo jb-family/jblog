@@ -43,13 +43,13 @@ public class CategoryService {
 	//블로그 카테고리 리스트
 	public Map<String, Object> selectList(String id) {
 		System.out.println("CategoryController > selectList()");
-		List<CategoryVo> cList = categoryDao.selectList(id);
-		System.out.println("cList : "+ cList);
 		Map<String, Object> cMap = new HashMap<String, Object>();
+		
+		List<CategoryVo> cList = categoryDao.selectList(id);
 		List<PostVo> pList = postDao.postCount(id);
-		System.out.println("pList : "+ pList);
-		cMap.put("pList", pList);
+		
 		cMap.put("cList", cList);
+		cMap.put("pList", pList);
 		
 		return cMap;
 	}

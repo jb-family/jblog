@@ -1,5 +1,8 @@
 package com.javaex.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.javaex.service.BlogService;
 import com.javaex.vo.BlogVo;
-import com.javaex.vo.UsersVo;
 
 @Controller
 public class BlogController {
@@ -24,13 +26,20 @@ public class BlogController {
 	
 	//블로그 주소
 	@RequestMapping(value="/blog/blog-main/{id}", method = {RequestMethod.POST, RequestMethod.GET})
-	public String blog(@PathVariable("id") String id, Model model) {
+	public String blog(@PathVariable("id") String id, Model model,
+			@RequestParam(value="cateNo", required=false, defaultValue="0") int cateNo,
+			@RequestParam(value="postNo", required=false, defaultValue= "0") int postNo) {
 		System.out.println("BlogController > blog()");
 		
-		UsersVo uVo = blogService.select(id);
-		System.out.println("uVo정보"+uVo);
-		model.addAttribute("uVo", uVo);
-		
+		Map<String, Object> map = blogService.select(id, cateNo, postNo);
+		System.out.println("postVo:"+ map.get("post"));
+		System.out.println("bVo정보:"+map.get("bVo"));
+		model.addAttribute("cList", map.get("cList"));
+		model.addAttribute("bVo", map.get("bVo"));
+		model.addAttribute("uVo", map.get("uVo"));
+		model.addAttribute("postList", map.get("postList"));
+		model.addAttribute("post", map.get("post"));
+			
 		return "/blog/blog-main";
 	}
 	
@@ -49,11 +58,11 @@ public class BlogController {
 	public String blogBasic(@PathVariable("id") String id, Model model) {
 		System.out.println("BlogController > blogBasic()");
 		
-		UsersVo uVo = blogService.select(id);
-		model.addAttribute("uVo", uVo);
+		Map<String, Object> map = blogService.select(id, 0, 0);
 		
-		BlogVo bVo = blogService.selectBlog(id);
-		model.addAttribute("bVo", bVo);
+		
+		model.addAttribute("uVo", map.get("uVo"));
+		model.addAttribute("bVo", map.get("bVo"));
 		
 		return "/blog/admin/blog-admin-basic";
 	}
@@ -66,7 +75,6 @@ public class BlogController {
 		BlogVo bVo = blogService.upLoad(blogVo, file, session);
 		
 		model.addAttribute("bVo", bVo);
-		System.out.println("정보정보"+bVo);
 		return "redirect:/blog/{id}/admin/basic";
 	}
 	

@@ -1,5 +1,8 @@
 package com.javaex.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.javaex.service.PostService;
 import com.javaex.vo.PostVo;
@@ -17,6 +21,7 @@ public class PostController {
 	
 	@Autowired
 	PostService postService;
+	
 	
 	
 	//블로그 포스트작성폼
@@ -30,8 +35,6 @@ public class PostController {
 		
 		return "/blog/admin/blog-admin-write";
 	}
-	
-	
 	
 	//블로그 포스트작성
 	@RequestMapping(value="/blog/{id}/admin/postWrite", method = {RequestMethod.POST, RequestMethod.GET})

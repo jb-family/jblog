@@ -3,6 +3,9 @@ package com.javaex.service;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
@@ -12,8 +15,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.javaex.dao.BlogDao;
+import com.javaex.dao.CategoryDao;
+import com.javaex.dao.PostDao;
 import com.javaex.dao.UsersDao;
 import com.javaex.vo.BlogVo;
+import com.javaex.vo.CategoryVo;
+import com.javaex.vo.PostVo;
 import com.javaex.vo.UsersVo;
 
 @Service
@@ -25,21 +32,42 @@ public class BlogService {
 	@Autowired
 	UsersDao usersDao;
 	
+	@Autowired
+	CategoryDao categoryDao;
+	
+	@Autowired
+	PostDao postDao;
+	
 	//블로그 접속자 정보 가져오기
-	public UsersVo select(String id) {
+	public Map<String, Object> select(String id, int cateNo, int postNo) {
 		System.out.println("BlogService > blog()");
 		
-		UsersVo uVo = usersDao.userInfo(id);
-		return uVo;
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		
+			List<CategoryVo> cList = categoryDao.selectList(id);
+			BlogVo bVo = blogDao.select(id);
+			UsersVo uVo = usersDao.userInfo(id);
+			List<PostVo> postList = postDao.postList(cateNo);
+			PostVo post = postDao.post(postNo);
+			map.put("cList", cList);
+			map.put("bVo", bVo);
+			map.put("uVo", uVo);
+			map.put("postList", postList);
+			map.put("post", post);
+			
+			return map;
+		
+		
 	}
 	
 	//블로그 접속자 정보 가져오기
-		public BlogVo selectBlog(String id) {
-			System.out.println("BlogService > blog()");
-			
-			BlogVo bVo = blogDao.select(id);
-			return bVo;
-		}
+	public BlogVo selectBlog(String id) {
+		System.out.println("BlogService > blog()");
+		
+		BlogVo bVo = blogDao.select(id);
+		return bVo;
+	}
 	
 	//블로그 글 파일 작성
 	public BlogVo upLoad(BlogVo blogVo, MultipartFile file, HttpSession session) {

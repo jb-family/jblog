@@ -30,5 +30,19 @@ public class PostDao {
 		return pList;
 	}
 	
+	//포스트 리스트 가져오기
+	public List<PostVo> postList(int cateNo) {
+		System.out.println("PostDao > count()");
+		List<PostVo> pList = sqlSession.selectList("post.pList", cateNo);
+		
+		return pList;
+	}
+	
+	//포스트 가져오기
+	public PostVo post(int postNo) {
+		System.out.println("PostDao > post()");
+		PostVo post = sqlSession.selectOne("post.post", postNo);
+		return post;
+	}
 	
 }
