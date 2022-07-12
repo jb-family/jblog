@@ -56,7 +56,17 @@
 	]]>
 	</select>
 	
-	
+	<select id="commentsInfo" resultMap="resultMapUsers" parameterType="int">
+	<![CDATA[
+		select  userNo
+		        ,id
+		        ,userName
+		        ,password
+		        ,to_char(joinDate, 'YYYY-MM-DD') "joinDate"
+		from    users
+		where	userNo = #{userNo}
+	]]>
+	</select>
 	
 	
 </mapper>

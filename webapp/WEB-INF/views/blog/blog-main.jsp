@@ -39,7 +39,7 @@
 					</div>
 					<ul id="cateList" class="text-left">
 						<c:forEach items="${cList}" var="cList">
-							<li><a href="${pageContext.request.contextPath}/blog/blog-main/${user.id}?cateNo=${cList.cateNo}&postNo=0">${cList.cateName}</a></li>
+							<li><a href="${pageContext.request.contextPath}/blog/blog-main/${bVo.id}?cateNo=${cList.cateNo}&postNo=0">${cList.cateName}</a></li>
 						</c:forEach>
 					</ul>
 				</div>
@@ -80,8 +80,25 @@
 					</c:otherwise>
 				</c:choose>
 				
+				<c:if test="${user != null}">
+				<div id="comment" style="width:100%; background-color:pink; height:30%;">
+					<div>
+						<form action="${pageContext.request.contextPath}/comment/insert" method="get">
+							<input type="text" name = "userName" style="width:100px; height:30px;" value="${user.userName}">
+							<input type="text" name = "cmtContent" style="width:300px; height:30px;">
+							<input type="hidden" name = "userNo" value="${user.userNo}">
+							<input type="hidden" name = "postNo" value="${post.postNo}">
+							<button type="submit" style="width:100px; height:50px;">댓글작성</button>
+						</form>
+						<div id="commentList" style="background-color:skyblue; width: 100%; border:1px solid black;">
+							
+						</div>
+					</div>
+				</div>
+				</c:if>
 				<div id="list">
-					<div id="listTitle" class="text-left"><strong>카테고리의 글</strong></div>
+					<div id="listTitle" class="text-left"><strong>카테고리의 글</strong>
+				</div>
 					<table>
 						<colgroup>
 							<col style="">
@@ -90,12 +107,10 @@
 						
 						<c:forEach items="${postList}" var="postList">
 							<tr>
-								<td class="text-left"><a href="${pageContext.request.contextPath}/blog/blog-main/${user.id}?cateNo=${postList.cateNo}&postNo=${postList.postNo}">${postList.postTitle}</a></td>
+								<td class="text-left"><a href="${pageContext.request.contextPath}/blog/blog-main/${bVo.id}?cateNo=${postList.cateNo}&postNo=${postList.postNo}">${postList.postTitle}</a></td>
 								<td class="text-right">${postList.regDate}</td>
 							</tr>
 						</c:forEach>
-						
-						
 					</table>
 				</div>
 				<!-- //list -->
@@ -116,8 +131,53 @@
 	</div>
 	<!-- //wrap -->
 </body>
+		
+<script type="text/javascript">
 
+		$(document).ready(function() {
+		
+			$.ajax({
+			url : "${pageContext.request.contextPath}/comment/list",		
+			type : "post",
+			//contentType : "application/json",
+			//data : categoryVo,
 
+			dataType : "json",
+			success : function(coMap){
+				/*성공시 처리해야될 코드 작성*/
+				console.log(coMap.commentsInfo);
+				
+				 for(var i = 0; i < coMap.coList.length; i++) {
+					render(coMap.coList[i], coMap.commentsInfo);
+					
+				} 
+				
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}
+		});
+		
+		})
+		
+		
+		function render(commentsVo, UsersVo) {
+			var str = '';
+			str += '<table>';
+			str += '	<tr>';
+			str += '		<td style="width:100px; text-align:center">'+ UsersVo.userName +'</td>';
+			str += '		<td style="width:800px; text-align:center">'+ commentsVo.cmtContent +'</td>';
+			str += '		<td style="width:100px; text-align:right">'+ commentsVo.regDate +'</td>';
+			str += '	</tr>';
+			str += '</table>';
+			
+			
+			$("#commentList").append(str);
+			
+		}
+		
+		
+</script>
 
 
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="comments">
+	
+	
+	<!-- 코멘트 리스트 -->
+	<select id="selectList" resultType="com.javaex.vo.CommentsVo">
+		<![CDATA[
+			select	u.userName
+					,u.id
+					,c.cmtNo
+					,c.postNo
+					,c.userNo
+					,c.cmtContent
+					,to_char(c.regDate, 'YYYY-MM-DD') regDate
+			from    comments c, users u
+			where   u.userNo = c.userNo
+			order by cmtNo desc
+		]]>
+	</select>
+	
+	<!-- 코멘트 추가 -->
+	<insert id="insert" parameterType="com.javaex.vo.CommentsVo">
+		<![CDATA[
+			INSERT INTO comments 
+			VALUES (seq_comments_no.nextval, #{postNo}, #{userNo}, #{cmtContent}, sysdate)
+		]]>
+	</insert>
+
+</mapper>

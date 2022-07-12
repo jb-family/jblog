@@ -54,4 +54,20 @@
 		]]>
 	</select>
 	
+	
+	<!-- post list(코멘트 정보가져오기) -->
+	<select id="postList" resultType="com.javaex.vo.PostVo" parameterType="int">
+		<![CDATA[
+			select  p.postNo
+					,p.cateNo
+					,p.postTitle
+					,p.postContent
+					,to_char(p.regDate, 'YYYY-MM-DD') regDate
+			from    post p, comments co
+			where   p.postNo = #{postNo}
+			order by p.postNo desc
+		]]>
+	</select>
+	
+	
 </mapper>

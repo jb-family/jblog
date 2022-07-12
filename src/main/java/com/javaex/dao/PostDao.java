@@ -45,4 +45,11 @@ public class PostDao {
 		return post;
 	}
 	
+	//포스트 리스트 가져오기(코멘트)
+		public List<PostVo> pList(int postNo) {
+			System.out.println("PostDao > post()");
+			List<PostVo> pList = sqlSession.selectList("post.postList", postNo);
+			return pList;
+		}
+	
 }

@@ -45,4 +45,16 @@ public class UsersDao {
 		UsersVo user = sqlSession.selectOne("users.userInfo", id);
 		return user;
 	}
+	
+	//코멘트 유저 가져오기
+	public UsersVo commentsInfo(int userNo) {
+		System.out.println("UsersDao > commentsInfo()");
+		
+		UsersVo commentsInfo = sqlSession.selectOne("users.commentsInfo", userNo);
+		return commentsInfo;
+	}
+	
+	
+	
+	
 }
