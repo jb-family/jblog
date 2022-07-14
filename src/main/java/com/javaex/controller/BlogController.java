@@ -37,6 +37,7 @@ public class BlogController {
 		model.addAttribute("cList", map.get("cList"));
 		model.addAttribute("bVo", map.get("bVo"));
 		model.addAttribute("uVo", map.get("uVo"));
+		model.addAttribute("userList", map.get("userList"));
 		model.addAttribute("postList", map.get("postList"));
 		model.addAttribute("post", map.get("post"));
 			

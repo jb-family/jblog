@@ -68,5 +68,18 @@
 	]]>
 	</select>
 	
+	<select id="selectList" resultMap="resultMapUsers">
+	<![CDATA[
+		select  userNo
+		        ,id
+		        ,userName
+		        ,password
+		        ,to_char(joinDate, 'YYYY-MM-DD') "joinDate"
+		from    users
+		
+	]]>
+	</select>
+	
+	
 	
 </mapper>

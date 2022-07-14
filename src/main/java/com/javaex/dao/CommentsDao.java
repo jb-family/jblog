@@ -16,10 +16,10 @@ public class CommentsDao {
 	
 	
 	//코멘트 리스트
-	public List<CommentsVo> selectList() {
+	public List<CommentsVo> selectList(CommentsVo commentsVo) {
 		System.out.println("CommentsDao > selectList()");
 		
-		List<CommentsVo> coList = sqlSession.selectList("comments.selectList");
+		List<CommentsVo> coList = sqlSession.selectList("comments.selectList", commentsVo);
 		return coList;
 	}
 	
@@ -30,6 +30,14 @@ public class CommentsDao {
 		return sqlSession.insert("comments.insert", commentsVo);
 	}
 	
-	
+	//코멘트 추가된정보 가져오기
+	public CommentsVo select(int cmtNo) {
+		System.out.println("CommentsDao > cVo()");
+		
+		CommentsVo cVo = sqlSession.selectOne("comments.select", cmtNo);
+		return cVo;
+		
+		
+	}
 	
 }

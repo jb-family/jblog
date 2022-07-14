@@ -50,6 +50,9 @@ public class BlogService {
 			UsersVo uVo = usersDao.userInfo(id);
 			List<PostVo> postList = postDao.postList(cateNo);
 			PostVo post = postDao.post(postNo);
+			List<UsersVo> userList = usersDao.selectList();
+			System.out.println("유저리스트"+userList);
+			map.put("userList", userList);
 			map.put("cList", cList);
 			map.put("bVo", bVo);
 			map.put("uVo", uVo);

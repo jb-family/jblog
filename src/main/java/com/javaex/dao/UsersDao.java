@@ -54,6 +54,13 @@ public class UsersDao {
 		return commentsInfo;
 	}
 	
+	//유저이름 리스트
+	public List<UsersVo> selectList() {
+		System.out.println("UsersDao > selectList()");
+		
+		List<UsersVo> userList = sqlSession.selectList("users.selectList");
+		return userList;
+	}
 	
 	
 	

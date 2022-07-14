@@ -26,30 +26,33 @@ public class CommentsService {
 	@Autowired
 	PostDao postDao;
 	
-	public Map<String, Object> selectList() {
+	public Map<String, Object> selectList(CommentsVo commentsVo) {
 		System.out.println("CommentsService > selectList()");
 		Map<String, Object> coMap = new HashMap<String, Object>();
 		
-		//List<PostVo> pList = postDao.pList(postNo);
-		//int postNo = coList.get(0).getPostNo();
+		List<CommentsVo> coList = commentsDao.selectList(commentsVo);
+		List<UsersVo> userList = usersDao.selectList();
 		
-		List<CommentsVo> coList = commentsDao.selectList();
-		int userNo = coList.get(0).getUserNo();
 		
-		UsersVo commentsInfo = usersDao.commentsInfo(userNo);
-		System.out.println("coList정뵈:"+coList);
-		System.out.println("commentsInfo정뵈:"+commentsInfo);
+		System.out.println("userList정보:"+userList);
+		System.out.println("coList정보:"+coList);
+		
+		
+		coMap.put("userList", userList);
 		coMap.put("coList", coList);
-		coMap.put("commentsInfo", commentsInfo);
-		
 		return coMap;
 	}
 	
 	//코멘트 추가
-	public int insert(CommentsVo commentsVo) {
+	public CommentsVo insert(CommentsVo commentsVo) {
 		System.out.println("CommentsService > insert()");
 		
-		return commentsDao.insert(commentsVo);
+		commentsDao.insert(commentsVo);
+		
+		int cmtNo = commentsVo.getCmtNo();      
+		
+		CommentsVo cVo = commentsDao.select(cmtNo);
+		return cVo;
 	}
 	
 	

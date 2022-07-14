@@ -83,15 +83,12 @@
 				<c:if test="${user != null}">
 				<div id="comment" style="width:100%; background-color:pink; height:30%;">
 					<div>
-						<form action="${pageContext.request.contextPath}/comment/insert" method="get">
-							<input type="text" name = "userName" style="width:100px; height:30px;" value="${user.userName}">
-							<input type="text" name = "cmtContent" style="width:300px; height:30px;">
-							<input type="hidden" name = "userNo" value="${user.userNo}">
-							<input type="hidden" name = "postNo" value="${post.postNo}">
-							<button type="submit" style="width:100px; height:50px;">댓글작성</button>
-						</form>
+						<input type="text" name = "userName" style="width:100px; height:30px;" value="${user.userName}">
+						<input type="text" name = "cmtContent" style="width:300px; height:30px;">
+						<input type="hidden" name = "userNo" value="${user.userNo}">
+						<input type="hidden" name = "postNo" value="${post.postNo}">
+						<button type="button" id="addComments" style="width:100px; height:50px;">댓글작성</button>
 						<div id="commentList" style="background-color:skyblue; width: 100%; border:1px solid black;">
-							
 						</div>
 					</div>
 				</div>
@@ -135,46 +132,116 @@
 <script type="text/javascript">
 
 		$(document).ready(function() {
-		
+			
+			var postNo = $("[name = postNo]").val();
+			var userNo = $("[name = userNo]").val();
+			var userList = "${userList}";
+			console.log(userList);
+			
+			console.log(postNo);
+			var commentsVo = {
+					postNo : postNo,
+					userNo : userNo
+			}
+			
 			$.ajax({
 			url : "${pageContext.request.contextPath}/comment/list",		
 			type : "post",
 			//contentType : "application/json",
-			//data : categoryVo,
+			data : commentsVo,
 
 			dataType : "json",
 			success : function(coMap){
 				/*성공시 처리해야될 코드 작성*/
-				console.log(coMap.commentsInfo);
+				console.log(coMap.coList);
+				
 				
 				 for(var i = 0; i < coMap.coList.length; i++) {
-					render(coMap.coList[i], coMap.commentsInfo);
-					
-				} 
+					render(coMap.coList[i], "down");
+					} 
+				
+			
 				
 			},
 			error : function(XHR, status, error) {
 				console.error(status + " : " + error);
 			}
+			});
+		
 		});
 		
-		})
 		
 		
-		function render(commentsVo, UsersVo) {
+		function render(commentsVo, opt) {
 			var str = '';
 			str += '<table>';
 			str += '	<tr>';
-			str += '		<td style="width:100px; text-align:center">'+ UsersVo.userName +'</td>';
+			str += '		<td style="width:100px; text-align:center"></td>';
 			str += '		<td style="width:800px; text-align:center">'+ commentsVo.cmtContent +'</td>';
 			str += '		<td style="width:100px; text-align:right">'+ commentsVo.regDate +'</td>';
 			str += '	</tr>';
 			str += '</table>';
 			
-			
-			$("#commentList").append(str);
+			if(opt === "down") {
+				$("#commentList").append(str);
+			}else if(opt === "up") {
+				$("#commentList").prepend(str);
+			}
 			
 		}
+		
+		
+		$("#addComments").on("click", function() {
+			
+			var cmtContent = $("[name = cmtContent]").val();
+			var postNo = $("[name = postNo]").val();
+			var userNo = $("[name = userNo]").val();
+			var userName = $("[name = userName]").val();
+			console.log(userName);
+			console.log(cmtContent);
+			console.log(postNo);
+			console.log(userNo);
+			
+			var commentsVo = {
+					cmtContent : cmtContent,
+					postNo : postNo,
+					userNo : userNo,
+					userName : userName
+			}
+			
+			
+			$.ajax({
+				url : "${pageContext.request.contextPath}/comment/insert",		
+				type : "post",
+				//contentType : "application/json",
+				data : commentsVo,
+
+				dataType : "json",
+				success : function(cVo){
+					/*성공시 처리해야될 코드 작성*/
+					console.log(cVo);
+					
+					render(cVo, "up");
+					
+					
+				},
+				error : function(XHR, status, error) {
+					console.error(status + " : " + error);
+				}
+			});
+			
+			
+			
+		});
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 </script>
